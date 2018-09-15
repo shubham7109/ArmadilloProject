@@ -1,0 +1,117 @@
+<resources>
+    <dimen name="list_item_height">56dp</dimen>
+    <dimen name="list_item_header_small">32dp</dimen>
+    <dimen name="list_item_header">42dp</dimen>
+    <dimen name="list_item_height_xsmall">42dp</dimen>
+
+    <dimen name="list_item_height_small">48dp</dimen>
+    <dimen name="list_item_height_medium">64dp</dimen>
+    <dimen name="list_item_height_large">72dp</dimen>
+    <dimen name="list_item_height_semi_large">85dp</dimen>
+    <dimen name="list_item_height_xlarge">100dp</dimen>
+    <dimen name="list_item_height_xxlarge">142dp</dimen>
+
+    <dimen name="list_item_icon_height_med">36dp</dimen>
+    <dimen name="list_item_icon_height_large">48dp</dimen>
+
+    <dimen name="triple_item_min_width">70dp</dimen>
+
+    <dimen name="border_thin">1dp</dimen>
+
+    <dimen name = "custom_background_linear_layout">1000dp</dimen>
+
+    <dimen name="popup_separator_size">0px</dimen>
+    <dimen name="popup_corner_radius">5dp</dimen>
+    <dimen name="popup_corner_radius_outer">6dp</dimen>
+    <dimen name="popup_options_padding">12dp</dimen>
+    <dimen name="popup_options_padding_outer">12dp</dimen>
+    <dimen name="popup_options_height">32dp</dimen>
+
+    <dimen name="calendar_day_height">40dp</dimen>
+    <dimen name="calendar_view_height">280dp</dimen>
+
+    <dimen name="course_detail_item_colored_block_width">72dp</dimen>
+    <dimen name="classes_day_view_padding">12dp</dimen>
+    <dimen name="classes_day_header_height">20dp</dimen>
+    <dimen name="classes_header">100dp</dimen>
+    <dimen name="classes_tab_height">48dp</dimen>
+    <dimen name="classes_grid_width">2px</dimen>
+    <dimen name="course_time_height">35dp</dimen>
+    <dimen name="class_overlay_margin_left">40dp</dimen>
+    <dimen name="class_detail_list_textsize">16dp</dimen>
+    <dimen name="class_detail_list_textsize_small">14dp</dimen>
+    <dimen name="class_overlay_text">11sp</dimen>
+    <dimen name="class_name_size">12sp</dimen>
+    <dimen name="home_photostream_padding">3dp</dimen>
+    <dimen name="photo_grid_spacing">2dp</dimen>
+    <dimen name="photostream_category_height_padding">10dp</dimen>
+    <dimen name="popup_mystate_padding">30dp</dimen>
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="app_defaultsize_w">632.0dip</dimen>
+    <dimen name="app_defaultsize_h">598.0dip</dimen>
+    <dimen name="app_minimumsize_w">632.0dip</dimen>
+    <dimen name="app_minimumsize_h">598.0dip</dimen>
+
+    <dimen name="indexer_circle_size">8dp</dimen>
+
+    <dimen name="padding_extra_small">2dp</dimen>
+    <dimen name="padding_small">4dp</dimen>
+    <dimen name="padding_medium">8dp</dimen>
+    <dimen name="padding_extra_medium">12dp</dimen>
+    <dimen name="padding_large">16dp</dimen>
+    <dimen name="padding_xlarge">24dp</dimen>
+    <dimen name="padding_xxlarge">32dp</dimen>
+    <dimen name="padding_xxxlarge">90dp</dimen>
+    <dimen name="padding_way_too_big">100dp</dimen>
+    <dimen name="parallax_scroll">200dp</dimen>
+
+    <dimen name="map_circle_size">88dip</dimen>
+    <dimen name="map_circle_half_size">44dip</dimen>
+    <dimen name="map_circle_text_size">18sp</dimen>
+
+    <!-- Dimensions for Dashboard widgets -->
+    <dimen name="db_widget_width_standard">130dp</dimen>
+    <dimen name="db_widget_width_large">150dp</dimen>
+    <dimen name="db_widget_width_larger">170dp</dimen>
+
+    <dimen name="db_widget_padding">4dp</dimen>
+    <dimen name="db_widget_height">184dp</dimen>
+
+    <dimen name="db_widget_title_text_size">16sp</dimen>
+    <dimen name="db_widget_desc_text_size">14sp</dimen>
+    <dimen name="db_widget_sub_text_size">12sp</dimen>
+
+    <dimen name="db_widget_holder_height">240dp</dimen>
+    <dimen name="db_widget_holder_title_height">32dp</dimen>
+    <dimen name="db_widget_holder_title_height_padding">4dp</dimen>
+    <dimen name="db_widget_holder_content_height">172dp</dimen>
+
+    <!-- Toolbar dimens -->
+    <dimen name="default_toolbar_elevation">4dp</dimen>
+    <dimen name="abc_search_view_text_min_width">192dip</dimen>
+
+    <!-- Fairs dimens -->
+    <dimen name="fairs_toolbar_text">16sp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="fairs_toolbar_height">35dp</dimen>
+
+
+    <dimen name="spacing_small">3dp</dimen>
+    <dimen name="spacing_xsmall">2dp</dimen>
+    <dimen name="spacing_medium">4dp</dimen>
+    <dimen name="spacing_middle">10dp</dimen>
+    <dimen name="spacing_large">16dp</dimen>
+    <dimen name="spacing_mlarge">20dp</dimen>
+    <dimen name="spacing_xlarge">32dp</dimen>
+
+    <!-- StuOrg Dimens -->
+    <dimen name="stuorg_header_height">28dp</dimen>
+    <dimen name="stuorg_item_height">28dp</dimen>
+    <dimen name="icon_size">60dp</dimen>
+    <dimen name="my_state_button_text_size">60px</dimen>
+</resources>
+
