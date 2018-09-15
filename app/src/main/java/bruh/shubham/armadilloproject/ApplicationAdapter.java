@@ -2,6 +2,7 @@ package bruh.shubham.armadilloproject;
 
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -104,11 +105,12 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
         return ((null != appsList) ? appsList.size() : 0);
     }
 
+    @SuppressLint("StaticFieldLeak")
     private class CalcColor extends AsyncTask<Void, Void, Integer> {
         ViewHolder viewHolder;
         int position;
 
-        public CalcColor(ViewHolder holder, int position){
+        CalcColor(ViewHolder holder, int position){
             this.viewHolder = holder;
             this.position = position;
         }

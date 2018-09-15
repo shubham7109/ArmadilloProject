@@ -25,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
     private static final int READ_EXTERNAL_STORAGE = 123;
     private static final double HEART_HEIGHT_MAX = 0.70;
     private static final double HEART_HEIGHT_MIN = 0.10;
+    private static int SCREEN_HEIGHT;
     private PackageManager packageManager = null;
     private List<ApplicationInfo> applist = null;
     private ApplicationAdapter listadaptor = null;
@@ -64,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
     private ConstraintLayout layout;
     private Realm realm;
     private RelativeLayout heartLayout;
+    private int touchDownPosition;
 
     @Override public void onPause() {
         //overridePendingTransition(R.anim.fadeout, R.anim.fadeout);
@@ -145,6 +148,11 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
     private void setUpVariables(){
         context = this;
         packageManager = getPackageManager();
+        touchDownPosition = 0;
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        SCREEN_HEIGHT = displayMetrics.heightPixels;
     }
 
     private void setUpViews(){
@@ -163,21 +171,45 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
 
     }
 
+    private boolean isDownFlag = false;
+    private int prevHeight=0;
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        Log.d("Touch event:",ev.getY()+"");
+        ViewGroup.LayoutParams layoutParams = heartLayout.getLayoutParams();
+        if(ev.getAction() == MotionEvent.ACTION_DOWN && !isDownFlag) {
+            touchDownPosition = (int) ev.getY();
+            isDownFlag = true;
+            prevHeight = layoutParams.height;
+            Log.e("FLAG", "Setting flag as true");
+        }
+        if(ev.getAction() == MotionEvent.ACTION_UP && isDownFlag) {
+            isDownFlag = false;
+            Log.e("FLAG", "Setting flag as false");
+//            float dy =  ev.getY();
+//            Log.e("Moved:","From: "+ layoutParams.height + " To: "+ layoutParams.height + (touchDownPosition - (int) ev.getY()) + " which is : " +(touchDownPosition - (int) ev.getY()) + " pixels");
+        }
+
+        if(checkHeartMin(layoutParams.height, (int) ev.getY())){
+            layoutParams.height = prevHeight + (touchDownPosition - (int) ev.getY());
+            heartLayout.setLayoutParams(layoutParams);
+        }
         return true;
     }
 
-
-
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            //hideSystemUI();
-        }
+    private boolean checkHeartMin(int height,int curY){
+        return (height > HEART_HEIGHT_MIN * SCREEN_HEIGHT) || (touchDownPosition >=  curY);
     }
+
+
+
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        super.onWindowFocusChanged(hasFocus);
+//        if (hasFocus) {
+//            //hideSystemUI();
+//        }
+//    }
 
     private void hideSystemUI() {
         // Enables regular immersive mode.
