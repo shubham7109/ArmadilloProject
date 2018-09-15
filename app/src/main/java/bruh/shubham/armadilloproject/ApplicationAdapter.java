@@ -28,14 +28,16 @@ import org.w3c.dom.Text;
 
 import bruh.shubham.armadilloproject.Models.PackageDetails;
 
+import static bruh.shubham.armadilloproject.Models.PackageDetails.drawableToBitmap;
+
 public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.ViewHolder> {
-    private final List<PackageDetails> appsList;
+    private final List<ApplicationInfo> appsList;
     private Context context;
     private PackageManager packageManager;
     private ItemClickListener mClickListener;
     private LayoutInflater mInflater;
 
-    public ApplicationAdapter(Context context, List<PackageDetails> appsList) {
+    public ApplicationAdapter(Context context, List<ApplicationInfo> appsList) {
         this.context = context;
         this.appsList = appsList;
         this.mInflater = LayoutInflater.from(context);
@@ -84,11 +86,11 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        PackageDetails applicationInfo = appsList.get(position);
+        ApplicationInfo applicationInfo = appsList.get(position);
         if (null != applicationInfo) {
-            holder.layout.setBackgroundColor(position);
-            holder.appName.setText(applicationInfo.getAppName());
-            holder.iconview.setImageBitmap(applicationInfo.getIcon());
+            new CalcColor(holder,position).execute();
+            holder.appName.setText(applicationInfo.loadLabel(packageManager));
+            holder.iconview.setImageDrawable(applicationInfo.loadIcon(packageManager));
         }
     }
 
@@ -101,4 +103,24 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
     public int getItemCount() {
         return ((null != appsList) ? appsList.size() : 0);
     }
-};
+
+    private class CalcColor extends AsyncTask<Void, Void, Integer> {
+        ViewHolder viewHolder;
+        int position;
+
+        public CalcColor(ViewHolder holder, int position){
+            this.viewHolder = holder;
+            this.position = position;
+        }
+
+        @Override
+        protected Integer doInBackground(Void... params) {
+            return PackageDetails.calculateAverageColor(drawableToBitmap(appsList.get(position).loadIcon(context.getPackageManager())),5);
+        }
+        @Override
+        protected void onPostExecute(Integer result) {
+            viewHolder.layout.setBackgroundColor(result);
+            super.onPostExecute(result);
+        }
+    }
+}

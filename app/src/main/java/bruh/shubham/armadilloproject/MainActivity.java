@@ -45,7 +45,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import bruh.shubham.armadilloproject.Models.PackageDetails;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -54,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
     private static final int READ_EXTERNAL_STORAGE = 123;
     private PackageManager packageManager = null;
     private List<ApplicationInfo> applist = null;
-    private List<PackageDetails> packageDetailsList;
     private ApplicationAdapter listadaptor = null;
     private Context context;
     private RecyclerView recyclerView;
@@ -77,8 +75,7 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setUpActivity();
-
-        checkRealmData();
+        new LoadApplications().execute();
     }
 
     @Override public void onBackPressed() {
@@ -91,27 +88,6 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
         setUpViews();
         setUpVariables();
     }
-
-    private void checkRealmData(){
-        Realm.init(context);
-        RealmResults<PackageDetails> packageDetailsRealmResults = getRealm().where(PackageDetails.class).findAll();
-        if(packageDetailsRealmResults != null && packageDetailsRealmResults.size() != 0){
-            packageDetailsList = packageDetailsRealmResults;
-            listadaptor = new ApplicationAdapter(context, packageDetailsList);
-            listadaptor.setClickListener((ApplicationAdapter.ItemClickListener) context);
-            recyclerView.setAdapter(listadaptor);
-            listadaptor = new ApplicationAdapter(context, packageDetailsList);
-            listadaptor.setClickListener((ApplicationAdapter.ItemClickListener) context);
-            recyclerView.setAdapter(listadaptor);
-            Log.e("LOADING ASYNC", "NOT");
-        }
-        else
-        {
-            new LoadApplications().execute();
-            Log.e("LOADING ASYNC", "YES");
-        }
-    }
-
     /**
      * Creates and returns the default realm instance
      * @return default realm instance
@@ -270,33 +246,9 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
                         return lhs.loadLabel(context.getPackageManager()).toString().compareTo(rhs.loadLabel(context.getPackageManager()).toString());
                     }
                 });
-
-                getRealm().executeTransactionAsync(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        int i=0;
-                        for(ApplicationInfo applicationInfo : applist){
-                            PackageDetails packageDetails = new PackageDetails(applicationInfo,context);
-                            realm.copyToRealmOrUpdate(packageDetails);
-                            Log.d("LOOP",i+++" out of "+applist.size());
-                        }
-                    }
-                }, new Realm.Transaction.OnSuccess() {
-                    @Override
-                    public void onSuccess() {
-                        packageDetailsList = getRealm().where(PackageDetails.class).findAll();
-                        listadaptor = new ApplicationAdapter(context, packageDetailsList);
-                        listadaptor.setClickListener((ApplicationAdapter.ItemClickListener) context);
-                        recyclerView.setAdapter(listadaptor);
-                    }
-                }, new Realm.Transaction.OnError() {
-                    @Override
-                    public void onError(Throwable error) {
-                        Snackbar.make(getWindow().getDecorView().getRootView(),"Error with realm. Contact Developer",Snackbar.LENGTH_LONG).setAction("dismiss", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {}}).show();
-                    }
-                });
+                listadaptor = new ApplicationAdapter(context, applist);
+                listadaptor.setClickListener((ApplicationAdapter.ItemClickListener) context);
+                recyclerView.setAdapter(listadaptor);
                 super.onPostExecute(result);
             }
         }

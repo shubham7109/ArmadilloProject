@@ -76,7 +76,7 @@ public class PackageDetails extends RealmObject {
         this.banner = encodeTobase64(drawableToBitmap(banner));
     }
 
-    private static Bitmap drawableToBitmap(Drawable drawable) {
+    public static Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap;
 
         if (drawable instanceof BitmapDrawable) {
@@ -104,7 +104,7 @@ public class PackageDetails extends RealmObject {
     If pixelSpacing == 1: the average color will be the real average
     If pixelSpacing < 1: the method will most likely crash (don't use values below 1)
     */
-    private int calculateAverageColor(android.graphics.Bitmap bitmap, int pixelSpacing) {
+    public static int calculateAverageColor(android.graphics.Bitmap bitmap, int pixelSpacing) {
         int R = 0; int G = 0; int B = 0;
         int height = bitmap.getHeight();
         int width = bitmap.getWidth();
