@@ -80,7 +80,7 @@
 <color name="nav_drawer">#212121</color>
 <color name="nav_drawer_black">#1b1919</color>
 
-<color name="class_overlay">#AAFFFFFF</color>
+<color name="class_overlay">#c5ffffff</color>
 <color name="class_color1">#ff5E94E5</color>
 <color name="class_color2">#ffFF704D</color>
 <color name="class_color3">#ffA86BE5</color>

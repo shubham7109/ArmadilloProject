@@ -30,12 +30,14 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,12 +47,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import bruh.shubham.armadilloproject.Models.CustomGridLayoutManager;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class MainActivity extends AppCompatActivity implements ApplicationAdapter.ItemClickListener {
 
     private static final int READ_EXTERNAL_STORAGE = 123;
+    private static final double HEART_HEIGHT_MAX = 0.70;
+    private static final double HEART_HEIGHT_MIN = 0.10;
     private PackageManager packageManager = null;
     private List<ApplicationInfo> applist = null;
     private ApplicationAdapter listadaptor = null;
@@ -58,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
     private RecyclerView recyclerView;
     private ConstraintLayout layout;
     private Realm realm;
+    private RelativeLayout heartLayout;
 
     @Override public void onPause() {
         //overridePendingTransition(R.anim.fadeout, R.anim.fadeout);
@@ -87,6 +93,7 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
         askPermissions();
         setUpViews();
         setUpVariables();
+        setUpGestures();
     }
     /**
      * Creates and returns the default realm instance
@@ -143,12 +150,23 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
     private void setUpViews(){
         recyclerView = (RecyclerView) findViewById(R.id.list);
         layout = findViewById(R.id.layout);
+        heartLayout = findViewById(R.id.heart_layout);
     }
 
     private void setUpWallpaper(boolean permission){
         if(permission)
             layout.setBackground(WallpaperManager.getInstance(this).getDrawable());
         else  layout.setBackgroundResource(R.drawable.gradient);
+    }
+
+    private void setUpGestures(){
+
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        Log.d("Touch event:",ev.getY()+"");
+        return true;
     }
 
 
@@ -239,7 +257,11 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
 
             @Override
             protected void onPostExecute(Void result) {
-                recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                CustomGridLayoutManager linearLayoutManager = new CustomGridLayoutManager(context);
+                linearLayoutManager.setScrollEnabled(false);
+                linearLayoutManager.setReverseLayout(true);
+                linearLayoutManager.offsetChildrenVertical(100);
+                recyclerView.setLayoutManager(linearLayoutManager);
                 Collections.sort(applist, new Comparator<ApplicationInfo>() {
                     @Override
                     public int compare(ApplicationInfo lhs, ApplicationInfo rhs) {
