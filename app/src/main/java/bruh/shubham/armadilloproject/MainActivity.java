@@ -34,6 +34,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Adapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -65,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
     private Realm realm;
 
     @Override public void onPause() {
-        //overridePendingTransition(R.anim.fadeout, R.anim.fadeout);
         super.onPause();
     }
 
@@ -160,16 +160,6 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
         else  layout.setBackgroundResource(R.drawable.gradient);
     }
 
-
-
-//    @Override
-//    public void onWindowFocusChanged(boolean hasFocus) {
-//        super.onWindowFocusChanged(hasFocus);
-//        if (hasFocus) {
-//            //hideSystemUI();
-//        }
-//    }
-
     private void hideSystemUI() {
         // Enables regular immersive mode.
         // For "lean back" mode, remove SYSTEM_UI_FLAG_IMMERSIVE.
@@ -246,6 +236,8 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
                 super.onCancelled();
             }
 
+            int saveY =0;
+
             @Override
             protected void onPostExecute(Void result) {
                 LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
@@ -261,6 +253,33 @@ public class MainActivity extends AppCompatActivity implements ApplicationAdapte
                 listadaptor = new ApplicationAdapter(context, applist);
                 listadaptor.setClickListener((ApplicationAdapter.ItemClickListener) context);
                 recyclerView.setAdapter(listadaptor);
+                recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+
+                    @Override
+                    public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                        super.onScrolled(recyclerView, dx, dy);
+                        saveY = saveY + dy;
+                        if (dy > 0) {
+                            Log.e("Scrolling up","(dy,dx) " + dy+ ","+ dx);
+                        } else {
+                            Log.e("Scrolling down","(dy,dx) " + dy+ ","+ dx);
+                        }
+                    }
+
+                    @Override
+                    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                        super.onScrollStateChanged(recyclerView, newState);
+
+                        if (newState == AbsListView.OnScrollListener.SCROLL_STATE_FLING) {
+                            Log.e("Fling","State");
+                        } else if (newState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
+                            Log.e("Touch","State");
+                        } else {
+                            Log.e("SAVEY: ",saveY+"");
+                            saveY = 0;
+                        }
+                    }
+                });
                 super.onPostExecute(result);
             }
         }

@@ -93,6 +93,7 @@ public class ApplicationAdapter extends RecyclerView.Adapter<ApplicationAdapter.
             holder.appName.setText(applicationInfo.loadLabel(packageManager));
             holder.iconview.setImageDrawable(applicationInfo.loadIcon(packageManager));
         }
+
     }
 
     @Override
